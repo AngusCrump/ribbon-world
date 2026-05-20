@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "ribbon-world",
+	"version": "${version}",
+	"name": "Ribbon World",
+	"description": "This mod turns the world into a sideways rectangular prism, with the width of the world the same as the height.",
+	"authors": [
+		"technochip"
+	],
+	"contact": {
+		"homepage": "https://github.com/AngusCrump/ribbon-world",
+		"sources": "https://github.com/AngusCrump/ribbon-world"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/ribbon-world/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"technochip.ribbonworld.RibbonWorld"
+		],
+		"client": [
+			"technochip.ribbonworld.client.RibbonWorldClient"
+		]
+	},
+	"mixins": [
+		"ribbon-world.mixins.json",
+		{
+			"config": "ribbon-world.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
