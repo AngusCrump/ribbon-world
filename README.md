@@ -10,4 +10,5 @@ Simple mod inspired by the "Ribbon World" type in Factorio. Does a few things:
  - Creates a 1-chunk wide wall of  barrier blocks at the border between terrain and void.
  - Stops Nether portals from generating outside of the border in the overworld (shouldn't happen in the nether)
  - Stops End gateways from generating outside the border (they just generate at Z = 0)
+ - Kills any non-player entities outside the border (means shulkers don't stick around in the End)
  - Tries to stop players from spawning outside the border (may not work if game cannot find valid spawn inside border, e.g. spawn is an ocean 🤷)
