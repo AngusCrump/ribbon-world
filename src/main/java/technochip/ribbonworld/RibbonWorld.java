@@ -19,6 +19,32 @@ public class RibbonWorld implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Hello Fabric world!");
+		ServerTickEvents.START_LEVEL_TICK.register(level -> {
+			// Only run on the server side
+
+			if (!level.isClientSide()) {
+				try {
+					ArrayList<Entity> toKill = new ArrayList<>();
+					for (Entity entity : level.getAllEntities()) {
+						if (entity != null && entity.isAlive() && !entity.isRemoved()) {
+							if (level.dimension() == Level.OVERWORLD) {
+								if (!(entity instanceof Player) && (entity.getZ() < -176 || entity.getZ() > 208)) {
+									toKill.add(entity);
+								}
+							} else {
+								if (!(entity instanceof Player) && (entity.getZ() < -112 || entity.getZ() > 144)) {
+									toKill.add(entity);
+								}
+							}
+						}
+					}
+					for (Entity entity : toKill) {
+						entity.kill(level);
+					}
+				} finally {
+
+				}
+			}
+		});
 	}
 }
