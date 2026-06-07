@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Comparator;
 import java.util.Optional;
 
-@Mixin(PortalForcer.class)
+@Mixin(value = PortalForcer.class, priority = 500)
 public abstract class PortalForcerMixin {
     @Shadow
     private ServerLevel level;
