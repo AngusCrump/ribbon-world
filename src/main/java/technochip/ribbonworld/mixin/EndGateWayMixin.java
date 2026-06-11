@@ -1,14 +1,14 @@
 package technochip.ribbonworld.mixin;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.TheEndGatewayBlockEntity;
 import net.minecraft.world.phys.Vec3;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-
-import static com.mojang.text2speech.Narrator.LOGGER;
 
 @Mixin(TheEndGatewayBlockEntity.class)
 abstract class EndGateWayMixin {
@@ -44,4 +44,8 @@ abstract class EndGateWayMixin {
     private static boolean isChunkEmpty(ServerLevel level, Vec3 xzPos) {
         return false;
     }
+
+    @Shadow
+    private static final Logger LOGGER = LogUtils.getLogger();
+
 }
