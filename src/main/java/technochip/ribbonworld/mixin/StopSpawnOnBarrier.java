@@ -20,34 +20,35 @@ public class StopSpawnOnBarrier {
      * as this means spawn is on barrier roof.
      */
     @Overwrite
-    protected static BlockPos getOverworldRespawnPos(final ServerLevel level, final int x, final int z) {
+    protected static BlockPos getLevelRespawnPos(final ServerLevel level, final int x, final int z) {
         boolean caveWorld = level.dimensionType().hasCeiling();
         LevelChunk chunk = level.getChunk(SectionPos.blockToSectionCoord(x), SectionPos.blockToSectionCoord(z));
         int topY = caveWorld ? level.getChunkSource().getGenerator().getSpawnHeight(level) : chunk.getHeight(Heightmap.Types.MOTION_BLOCKING, x & 15, z & 15);
         if (topY < level.getMinY() || topY == 318) {
             return null;
-        } else {
-            int surface = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x & 15, z & 15);
-            if (surface <= topY && surface > chunk.getHeight(Heightmap.Types.OCEAN_FLOOR, x & 15, z & 15)) {
-                return null;
-            } else {
-                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        }
 
-                for (int y = topY + 1; y >= level.getMinY(); y--) {
-                    pos.set(x, y, z);
-                    BlockState blockState = level.getBlockState(pos);
-                    if (!blockState.getFluidState().isEmpty()) {
-                        break;
-                    }
+        int surface = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x & 15, z & 15);
+        if (surface <= topY && surface > chunk.getHeight(Heightmap.Types.OCEAN_FLOOR, x & 15, z & 15)) {
+            return null;
+        }
 
-                    if (Block.isFaceFull(blockState.getCollisionShape(level, pos), Direction.UP)) {
-                        return pos.above().immutable();
-                    }
-                }
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-                return null;
+        for (int y = topY + 1; y >= level.getMinY(); y--) {
+            pos.set(x, y, z);
+            BlockState blockState = level.getBlockState(pos);
+            if (!blockState.getFluidState().isEmpty()) {
+                break;
+            }
+
+            if (Block.isFaceFull(blockState.getCollisionShape(level, pos), Direction.UP)) {
+                return pos.above().immutable();
             }
         }
+
+        return null;
+
     }
 
 }
