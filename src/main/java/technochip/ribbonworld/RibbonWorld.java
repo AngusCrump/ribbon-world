@@ -3,9 +3,6 @@ package technochip.ribbonworld;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.profiling.jfr.event.ServerTickTimeEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -37,12 +34,20 @@ public class RibbonWorld implements ModInitializer {
 					for (Entity entity : level.getAllEntities()) {
 						if (entity != null && entity.isAlive() && !entity.isRemoved()) {
 							if (level.dimension() == Level.OVERWORLD) {
-								if (!(entity instanceof Player) && (entity.getZ() < -176 || entity.getZ() > 208)) {
-									toKill.add(entity);
+								if (entity.getZ() < -176 || entity.getZ() > 208) {
+									if (entity instanceof Player){
+										entity.teleportTo(entity.getX(), entity.getY(), (entity.getZ() > 0) ? 207.5 : -175.5);
+									} else {
+										toKill.add(entity);
+									}
 								}
 							} else {
-								if (!(entity instanceof Player) && (entity.getZ() < -112 || entity.getZ() > 144)) {
-									toKill.add(entity);
+								if (entity.getZ() < -112 || entity.getZ() > 144) {
+									if (entity instanceof Player){
+										entity.teleportTo(entity.getX(), entity.getY(), (entity.getZ() > 0) ? 143.5 : -111.5);
+									} else {
+										toKill.add(entity);
+									}
 								}
 							}
 						}
@@ -51,7 +56,6 @@ public class RibbonWorld implements ModInitializer {
 						entity.kill(level);
 					}
 				} finally {
-
 				}
 			}
 		});
